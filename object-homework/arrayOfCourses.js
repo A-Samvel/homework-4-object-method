@@ -78,9 +78,10 @@ function sortByCourses(arr = []) {
   arr.forEach((obj) => {
     const { courseId, courseName, score } = obj;
     if (sortByCourses.hasOwnProperty(courseId)) {
-      sortByCourses[courseId]["score"].push(score);
+      sortByCourses[courseId]["score"] += score;
+      sortByCourses[courseId]["count"]++
     } else {
-      sortByCourses[courseId] = { courseName: courseName, score: [score] };
+      sortByCourses[courseId] = { courseName: courseName, score: score ,count : 1};
     }
   });
 
@@ -92,12 +93,12 @@ function arrayOfCourses(arr = []) {
   const sortedArr = sortByCourses(arr);
 
   for (const course in sortedArr) {
-    const { score } = sortedArr[course];
-    const res = score.reduce((acc, curentValue) => acc + curentValue);
+    const { score , count} = sortedArr[course];
+    
     arrayOfCourses.push({
       courseId: Number(course),
       courseName: sortedArr[course]["courseName"],
-      scoreAverge: Math.round(res / score.length),
+      scoreAverge: Math.round(score / count),
     });
   }
 
