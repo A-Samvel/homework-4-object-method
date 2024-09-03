@@ -62,11 +62,11 @@ function sortByStudents(arr = []) {
   arr.forEach((obj) => {
     const { studentId, studentName, payedAmount, year } = obj;
     if (sortByStudents.hasOwnProperty(studentId)) {
-      sortByStudents[studentId]["payedAmount"].push(payedAmount);
+      sortByStudents[studentId]["payedAmount"] += payedAmount;
     } else {
       sortByStudents[studentId] = {
         studentName: studentName,
-        payedAmount: [payedAmount],
+        payedAmount: payedAmount,
         year: year,
       };
     }
@@ -75,20 +75,17 @@ function sortByStudents(arr = []) {
   return sortByStudents;
 }
 
+
 function studentsArrayWithFullPayment(arr = []) {
   const obj = sortByStudents(arr);
   const studentsArrayWithFullPayment = [];
   for (const student in obj) {
-    const { payedAmount } = obj[student];
-    const fullPayment = payedAmount.reduce(
-      (acc, curentValue) => acc + curentValue,
-      0
-    );
+    
     studentsArrayWithFullPayment.push({
       studentId: Number(student),
       studentName: obj[student]["studentName"],
       year: obj[student]["year"],
-      fullPayment: fullPayment,
+      fullPayment: obj[student]["payedAmount"],
     });
   }
   return studentsArrayWithFullPayment;
