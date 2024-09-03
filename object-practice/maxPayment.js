@@ -59,7 +59,7 @@ const payments = [
 function maxPayment(arr = []) {
   return arr.reduce((acc, value) => {
     if (value["payedAmount"] > acc) return value["payedAmount"];
-    else return acc;
+    return acc;
   }, -Infinity);
 }
 
