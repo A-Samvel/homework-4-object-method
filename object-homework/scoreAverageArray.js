@@ -78,9 +78,14 @@ function sortByStudentID(arr = []) {
   arr.forEach((obj) => {
     const { studentId, studentName, score } = obj;
     if (sortByStudentID.hasOwnProperty(studentId)) {
-      sortByStudentID[studentId]["score"].push(score);
+      sortByStudentID[studentId]["score"] += score;
+      sortByStudentID[studentId]["count"]++;
     } else {
-      sortByStudentID[studentId] = { studentName: studentName, score: [score] };
+      sortByStudentID[studentId] = {
+        studentName: studentName,
+        score: score,
+        count: 1,
+      };
     }
   });
 
@@ -92,13 +97,12 @@ function scoreAverageArray(arr = [], average = 40) {
   const sortedArr = sortByStudentID(arr);
 
   for (const person in sortedArr) {
-    const { score } = sortedArr[person];
-    const res = score.reduce((acc, curentValue) => acc + curentValue);
-    if (res / score.length < average) {
+    const { score, count } = sortedArr[person];
+    if (score / count < average) {
       arrayOfStudents.push({
         studentId: person,
         studentName: sortedArr[person]["studentName"],
-        scoreAverge: res / score.length,
+        scoreAverge: score / count,
       });
     }
   }
